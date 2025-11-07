@@ -13,4 +13,5 @@ To do so, we will be pulling from these two public data sets
 > [Offical NBA Team & Player Statistics](https://www.nba.com/stats)
 
 ## Repository File Description:
-- [FinalReport.Rmd]("\FinalReport.Rmd")
+1. [FinalReport.Rmd]("\FinalReport.Rmd") - Rmd file containing report + full code
+2. [FinalReport.pdf]("\FinalReport.pdf") - Knitted Report PDF containing report + displayed code
