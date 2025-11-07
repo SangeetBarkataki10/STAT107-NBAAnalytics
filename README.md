@@ -12,4 +12,5 @@ To do so, we will be pulling from these two public data sets
 > 
 > [Offical NBA Team & Player Statistics](https://www.nba.com/stats)
 
-All findings and analysis are available in the repository's source code and on the knitted PDF attached below.
+## Repository File Description:
+- [FinalReport.Rmd]("\FinalReport.Rmd")

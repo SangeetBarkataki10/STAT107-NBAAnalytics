@@ -1,8 +1,8 @@
 ---
-title: "Final Report"
+title: "Offense vs Defense: An Analysis in the NBA's Play Style"
 author: "Team 22"
 date: "2025-11-07"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,9 +11,9 @@ source("code/00_requirements.R")
 load("data/22_DataSaving.RData")
 ```
 
-Abstract
+## Abstract
 
-This project analyzes how different basketball performance metrics relate to overall offensive and defensive efficiency across NBA teams. Using 2024–2025 regular season team statistics, we explore which factors are most strongly associated with efficient scoring and preventing opponents from scoring. Preliminary visualizations suggest that shooting efficiency (eFG%) and field goal percentage are key drivers of offensive performance, while defensive rebounding and steals are most closely linked to defensive success. Additional analysis will be conducted to determine how these efficiencies relate to winning more games.
+Dunk or get dunked on — that’s the name of the game when it comes to the NBA. Some games are tight, some games are full-on blowouts, but nevertheless basketball is one of the most fast-paced and relentless sports. You have twenty-four seconds to sink a shot or get one put down on your hoop, and currently the rules have seemed to strongly favor offenses and penalize physical defenses. Does that mean defense is less useful now, or does defense still play just as crucial a part and simply look different from what we expect? This paper seeks to investigate what efficient defenses and offenses look like by identifying key metrics that aggregate to describe efficient play, and ultimately analyze what wins games more, scoring points or allowing points.
 
 Introduction
 
