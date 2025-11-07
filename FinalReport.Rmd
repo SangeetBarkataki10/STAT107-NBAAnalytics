@@ -7,7 +7,7 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-source("code/00_requirements.R")
+source("util/00_requirements.R")
 # load("data/22_DataSaving.RData")
 ```
 
