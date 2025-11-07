@@ -13,26 +13,30 @@ source("../code/00_requirements.R")
 
 
 ```{r}
-df <- read_excel("../data/nba_stats_full24-25.xlsx")
-head(df)
+nba_raw <- read_csv("https://raw.githubusercontent.com/NocturneBear/NBA-Data-2010-2024/refs/heads/main/regular_season_totals_2010_2024.csv")
+write.csv(nba_raw, "../data/nba_raw.csv", row.names = FALSE)
+head(nba_raw)
 # data 24-25 regular season
 
 ```
 
+```{r}
+
+```
 
 
 ```{r}
-keep <- c("Team","GP","W","L","WIN%","PTS",
-          "FG%","eFG%","TS%","TOV%","OREB%","DREB%",
-          "PACE","POSS","OffRtg","DefRtg","NetRtg",
-          "AST","STL","BLK","PF","REB")
-df <- df[, intersect(keep, names(df))]
-
-df <- tidyr::drop_na(df)
-
-#team to factor, convert the rest to numerical values
-df$Team <- as.factor(df$Team)
-df[] <- lapply(df, function(x) if(is.character(x)) suppressWarnings(as.numeric(x)) else x)
+# keep <- c("Team","GP","W","L","WIN%","PTS",
+#           "FG%","eFG%","TS%","TOV%","OREB%","DREB%",
+#           "PACE","POSS","OffRtg","DefRtg","NetRtg",
+#           "AST","STL","BLK","PF","REB")
+# df <- df[, intersect(keep, names(df))]
+# 
+# df <- tidyr::drop_na(df)
+# 
+# #team to factor, convert the rest to numerical values
+# df$Team <- as.factor(df$Team)
+# df[] <- lapply(df, function(x) if(is.character(x)) suppressWarnings(as.numeric(x)) else x)
 
 ```
 

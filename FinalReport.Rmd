@@ -23,25 +23,12 @@ For the first phase of analysis, we will first categorize the variables into def
 
 For the second phase of analysis, we will then create an aggregate model from the two initial models that is computed as a composite. Using all three models the, we will conduct nested F-tests to determine whether the offensive model or defensive model provides the stronger signal within the composite.
 
-
 ## Data
 
-The data used in this project comes from the official NBA statistics website (NBA.com). We collected team-level data from the 2024–2025 regular season, including metrics such as win percentage, field goal percentages, turnovers, offensive rating (OffRtg), and defensive rating (DefRtg).
-
-Data Cleaning Steps Performed:
-
-Removed unnecessary variables and kept only those relevant to efficiency analysis.
-
-Converted team names into factor format for easier interpretation.
-
-Checked for and removed missing values where necessary.
-
-Saved the cleaned dataset as 22_DataSaving.RData for reproducibility.
-
-The final dataset contains 30 NBA teams and a selected set of performance metrics used throughout the analysis.
+In order to conduct this analysis on NBA gameplay statistics, we are using [regular season data (original data)]("../data/nba_raw.csv") compiled over a time range from 2010-2024 (Korolyk, 2024). This dataset is compiled by Vasilii Korolyk and is publicly available at https://github.com/NocturneBear/NBA-Data-2010-2024 for academic use under its [MIT License](https://github.com/NocturneBear/NBA-Data-2010-2024?tab=MIT-1-ov-file). The original data contains over 33,000 observations and documents 57 variables over each entry. Certain variables from the raw data are not useful for our research scope and analysis, so we initially pared down the variable size down to only the relevant ones required for both clean nomenclature and analysis. One of the key utility variables was the 'AVAILABLE_FLAG', which indicated whether the data for that row was usable. As a result, we utilized it to remove any potential entries with empty data points, only removing it after running the previous job.
 
 
-Preliminary Visualizations
+## EDA & Data Visualization
 
 Offensive Efficiency
 ```{r}
