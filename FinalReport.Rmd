@@ -8,7 +8,7 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("code/00_requirements.R")
-load("data/22_DataSaving.RData")
+# load("data/22_DataSaving.RData")
 ```
 
 ## Abstract
@@ -25,69 +25,101 @@ For the second phase of analysis, we will then create an aggregate model from th
 
 ## Data
 
-In order to conduct this analysis on NBA gameplay statistics, we are using [regular season data (original data)]("../data/nba_raw.csv") compiled over a time range from 2010-2024 (Korolyk, 2024). This dataset is compiled by Vasilii Korolyk and is publicly available at https://github.com/NocturneBear/NBA-Data-2010-2024 for academic use under its [MIT License](https://github.com/NocturneBear/NBA-Data-2010-2024?tab=MIT-1-ov-file). The original data contains over 33,000 observations and documents 57 variables over each entry. Certain variables from the raw data are not useful for our research scope and analysis, so we initially pared down the variable size down to only the relevant ones required for both clean nomenclature and analysis. One of the key utility variables was the 'AVAILABLE_FLAG', which indicated whether the data for that row was usable. As a result, we utilized it to remove any potential entries with empty data points, only removing it after running the previous job.
+In order to conduct this analysis on NBA gameplay statistics, we are using [regular season data (original data)]("../data/nba_raw.csv") compiled over a time range from 2010-2024 (Korolyk, 2024). This dataset is compiled by Vasilii Korolyk and is publicly available at https://github.com/NocturneBear/NBA-Data-2010-2024 for academic use under its [MIT License](https://github.com/NocturneBear/NBA-Data-2010-2024?tab=MIT-1-ov-file). The original data contains over 33,000 observations and documents 57 variables over each entry. 
 
+Within the raw data given, one of the variables was not a statistic and was in fact a helpful utility called AVAILABLE_FLAGS, which indicated whether the data was healthy enough for use. As a result, when cleaning the data we initially dropped all entries that didn't have a value of 1, which indicated they were healthy. After dropping those entries, we then removed all variables that have no bearing on the intended research or methodologies along with fully-empty rows. After cleaning, we're left with around 28K observations and 27 variables. Here are the variable description (Korolyk, 2024):
+
+### Dimensions
+- SEASON_YEAR: The year of the NBA season.
+- TEAM_ID: Unique identifier for the team.
+- TEAM_ABBREVIATION: Abbreviated name of the team.
+- TEAM_NAME: Full name of the team.
+- GAME_ID: Unique identifier for the game.
+- GAME_DATE: Date of the game.
+- MATCHUP: Matchup details indicating the teams involved.
+- WL: Outcome of the game (Win or Loss).
+
+### Metrics
+- FGM: Field goals made.
+- FGA: Field goals attempted.
+- FG_PCT: Field goal percentage.
+- FG3M: Three-point field goals made.
+- FG3A: Three-point field goals attempted.
+- FG3_PCT: Three-point field goal percentage.
+- FTM: Free throws made.
+- FTA: Free throws attempted.
+- FT_PCT: Free throw percentage.
+- OREB: Offensive rebounds.
+- DREB: Defensive rebounds.
+- REB: Total rebounds.
+- AST: Assists.
+- TOV: Turnovers.
+- STL: Steals.
+- BLK: Blocks.
+- BLKA: Opponent's blocks.
+- PF: Personal fouls.
+- PFD: Personal fouls drawn.
 
 ## EDA & Data Visualization
 
 Offensive Efficiency
 ```{r}
-# eFG% vs Offensive Rating
-ggplot(df, aes(x = `eFG%`, y = OffRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "eFG% vs Offensive Rating",
-       x = "Effective Field Goal Percentage (eFG%)",
-       y = "Offensive Rating (OffRtg)")
-
-# FG% vs Offensive Rating
-ggplot(df, aes(x = `FG%`, y = OffRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "FG% vs Offensive Rating",
-       x = "Field Goal Percentage (FG%)",
-       y = "Offensive Rating (OffRtg)")
-
-# Turnover% vs Offensive Rating
-ggplot(df, aes(x = `TOV%`, y = OffRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Turnover% vs Offensive Rating",
-       x = "Turnover Percentage (TOV%)",
-       y = "Offensive Rating (OffRtg)")
+# # eFG% vs Offensive Rating
+# ggplot(df, aes(x = `eFG%`, y = OffRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "eFG% vs Offensive Rating",
+#        x = "Effective Field Goal Percentage (eFG%)",
+#        y = "Offensive Rating (OffRtg)")
+# 
+# # FG% vs Offensive Rating
+# ggplot(df, aes(x = `FG%`, y = OffRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "FG% vs Offensive Rating",
+#        x = "Field Goal Percentage (FG%)",
+#        y = "Offensive Rating (OffRtg)")
+# 
+# # Turnover% vs Offensive Rating
+# ggplot(df, aes(x = `TOV%`, y = OffRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "Turnover% vs Offensive Rating",
+#        x = "Turnover Percentage (TOV%)",
+#        y = "Offensive Rating (OffRtg)")
 ```
 Observation: Teams with better shooting efficiency (higher eFG% and FG%) generally have higher offensive efficiency. Teams that commit fewer turnovers also tend to score more effectively.
 
 Defensive Efficiency
 ```{r}
-# Defensive Rebound% vs Defensive Rating
-ggplot(df, aes(x = `DREB%`, y = DefRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Defensive Rebound% vs Defensive Rating",
-       x = "Defensive Rebound Percentage (DREB%)",
-       y = "Defensive Rating (DefRtg, lower is better)")
-
-# Steals vs Defensive Rating
-ggplot(df, aes(x = STL, y = DefRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Steals vs Defensive Rating",
-       x = "Steals per Game",
-       y = "Defensive Rating (DefRtg, lower is better)")
-
-# Personal Fouls vs Defensive Rating
-ggplot(df, aes(x = PF, y = DefRtg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Personal Fouls vs Defensive Rating",
-       x = "Personal Fouls per Game",
-       y = "Defensive Rating (DefRtg, lower is better)")
+# # Defensive Rebound% vs Defensive Rating
+# ggplot(df, aes(x = `DREB%`, y = DefRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "Defensive Rebound% vs Defensive Rating",
+#        x = "Defensive Rebound Percentage (DREB%)",
+#        y = "Defensive Rating (DefRtg, lower is better)")
+# 
+# # Steals vs Defensive Rating
+# ggplot(df, aes(x = STL, y = DefRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "Steals vs Defensive Rating",
+#        x = "Steals per Game",
+#        y = "Defensive Rating (DefRtg, lower is better)")
+# 
+# # Personal Fouls vs Defensive Rating
+# ggplot(df, aes(x = PF, y = DefRtg)) +
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   labs(title = "Personal Fouls vs Defensive Rating",
+#        x = "Personal Fouls per Game",
+#        y = "Defensive Rating (DefRtg, lower is better)")
 ```
 
 Observation: Teams that rebound well on defense and generate steals generally allow fewer points. Personal fouls do not show a clear direct relationship with defensive efficiency.
 
-Plan for Further Analysis
+## Analysis
 
 In the next stage of the project, we will study how offensive and defensive efficiency relate to winning more games. Specifically, we will:
 
@@ -100,23 +132,16 @@ Focus on the top 10 teams in the league to determine common efficiency patterns.
 This will allow us to better answer the question: Does offense or defense win more games in the NBA?
 
 ```{r}
-df_top10 %>%
-  select(Team, `WIN%`, OffRtg, off_rank, DefRtg, def_rank)
+# df_top10 %>%
+#   select(Team, `WIN%`, OffRtg, off_rank, DefRtg, def_rank)
 
 ```
 
+## Citations
 
+Korolyk, Vitalii. “NBA Data 2010-2024 by NocturneBear.” GitHub, NocturneBear, 2024, github.com/NocturneBear/NBA-Data-2010-2024. 
 
-
-
-
-
-
-
-
-
-
-
+[![DOI](img/util/NocturneBear-NBA_Analytics-blue.png)](https://github.com/NocturneBear/NBA-Data-2010-2024)
 
 
 

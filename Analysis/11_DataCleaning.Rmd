@@ -13,31 +13,42 @@ source("../code/00_requirements.R")
 
 
 ```{r}
+# Reading raw data from NocturneBear repo and saving to files
 nba_raw <- read_csv("https://raw.githubusercontent.com/NocturneBear/NBA-Data-2010-2024/refs/heads/main/regular_season_totals_2010_2024.csv")
 write.csv(nba_raw, "../data/nba_raw.csv", row.names = FALSE)
 head(nba_raw)
-# data 24-25 regular season
-
 ```
 
-```{r}
 
-```
 
 
 ```{r}
-# keep <- c("Team","GP","W","L","WIN%","PTS",
-#           "FG%","eFG%","TS%","TOV%","OREB%","DREB%",
-#           "PACE","POSS","OffRtg","DefRtg","NetRtg",
-#           "AST","STL","BLK","PF","REB")
-# df <- df[, intersect(keep, names(df))]
-# 
-# df <- tidyr::drop_na(df)
-# 
-# #team to factor, convert the rest to numerical values
-# df$Team <- as.factor(df$Team)
-# df[] <- lapply(df, function(x) if(is.character(x)) suppressWarnings(as.numeric(x)) else x)
+# Variables needed for analysis
+vars <- c("SEASON_YEAR",
+          "TEAM_ID","TEAM_ABBREVIATION","TEAM_NAME",
+          "GAME_ID", "GAME_DATE", "MATCHUP", "WL",
+          "FGM","FGA","FG_PCT",
+          "FG3M","FG3A","FG3_PCT",
+          "FTM","FTA","FT_PCT",
+          "OREB","DREB","REB",
+          "AST", "TOV", "STL",
+          "BLK","BLKA",
+          "PF","PFD")
 
+# Removing unhealthy entries
+nba_hasflags <- nba_raw[nba_raw$AVAILABLE_FLAG == 1,]
+
+# Filtering for relevant variables only 
+nba_relev <- nba_hasflags[, intersect(vars, names(nba_hasflags))]
+
+# Dropping fully empty entries
+nba_clean <- tidyr::drop_na(nba_relev)
+
+write.csv(nba_clean, "../data/nba_clean.csv", row.names = FALSE)
+head(nba_clean, 10)
 ```
 
+``` {r}
+save.image("../Team22_NBA-Analysis.RData")
+```
 
