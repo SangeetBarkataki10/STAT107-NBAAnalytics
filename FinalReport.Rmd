@@ -13,20 +13,18 @@ load("data/22_DataSaving.RData")
 
 ## Abstract
 
-Dunk or get dunked on — that’s the name of the game when it comes to the NBA. Some games are tight, some games are full-on blowouts, but nevertheless basketball is one of the most fast-paced and relentless sports. You have twenty-four seconds to sink a shot or get one put down on your hoop, and currently the rules have seemed to strongly favor offenses and penalize physical defenses. Does that mean defense is less useful now, or does defense still play just as crucial a part and simply look different from what we expect? This paper seeks to investigate what efficient defenses and offenses look like by identifying key metrics that aggregate to describe efficient play, and ultimately analyze what wins games more, scoring points or allowing points. To do the first phase of analysis, we will first split the variables up by defensive or offensive categories, test for intercategorical collinearity, and employ techniques like backwards elimination to develop statistically significant offensive and defensive models that explain a team's win within a game accurately. For the second phase of analysis, we will then create an aggregate model from the two initial models and conduct nested F-tests to determine whether the offensive model or defensive model provides the stronger signal within the aggregate. (Insert findings later)
+Dunk or get dunked on — that’s the name of the game when it comes to the NBA. You have twenty-four seconds to sink a shot or get one put down on your hoop, and currently the rules have seemed to strongly favor offenses and penalize physical defenses. Does that mean defense is less useful now, or does defense still play just as crucial a part and simply look different from what we expect? This paper seeks to investigate what efficient defenses and offenses look like by identifying key metrics that aggregate to describe efficient play, and ultimately analyze what wins games more, scoring points or allowing points. To conduct this analysis, we will develop models describing offensive and defensive efficiency and apply nested F-tests across the models and an aggregate to identify which contributes more to winning games. (Insert findings later)
 
 ## Introduction
 
-The purpose of this project is to understand what contributes to better offensive and defensive efficiency in the NBA. These efficiency metrics are commonly used in basketball analytics to evaluate how effectively a team scores and prevents scoring. Coaches, analysts, and team management benefit from this type of analysis when building strategies, rotations, and roster decisions.
+The NBA's rulebook since 2004 and ongoing regularly makes updates that drive the game to at least seem both extremely offense-driven and defense-second, with the latter seemingly being a mere afterthought if not outright not integrated into defensive philosophies. This perception of the game may have a strong sense of truth, but there is a very viable possibility that it only describes half the game and leaves sorely underdeveloped defensive outlook and strategy. To bring the best out of players' technical abilities, strengthen and develop the NBA-seeking talent pool with both the players and aspiring coaches, and help the NBA tangibly understand how to fight now-rampant criticisms of the NBA 'going soft', it is crucial to better understand the current defensive structure of the game and how to best develop it. By analyzing which key metrics contribute to defensive or offensive efficiency and developing models to understand how much each throughput affects winning outcomes, we can create this better understanding of the flipside to the offensive-minded game style. In order to best conduct this analysis, we will break the analysis into two phases.
 
-We focus on two questions:
+For the first phase of analysis, we will first categorize the variables into defensive and offensive categories. Once we class the variables, we will test for intercategorical collinearity and develop a full model that selects one variable per collinear relationship to avoid redundancy. Once the full model is developed, we will employ techniques like backwards elimination to develop statistically significant offensive and defensive models that explain a team's win within a game accurately.
 
-1. Which performance indicators are most related to offensive efficiency?
+For the second phase of analysis, we will then create an aggregate model from the two initial models that is computed as a composite. Using all three models the, we will conduct nested F-tests to determine whether the offensive model or defensive model provides the stronger signal within the composite.
 
 
-2. Which performance indicators are most related to defensive efficiency?
-
-Data
+## Data
 
 The data used in this project comes from the official NBA statistics website (NBA.com). We collected team-level data from the 2024–2025 regular season, including metrics such as win percentage, field goal percentages, turnovers, offensive rating (OffRtg), and defensive rating (DefRtg).
 
