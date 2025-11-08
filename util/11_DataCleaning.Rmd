@@ -80,6 +80,6 @@ head(nba_clean, 10)
 ```
 
 ``` {r}
-save.image("../11_NBA-Analysis.RData")
+save.image("../data/11_NBA-Analysis.RData")
 ```
 

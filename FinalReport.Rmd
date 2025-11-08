@@ -25,99 +25,90 @@ For the second phase of analysis, we will then create an aggregate model from th
 
 ## Data
 
-In order to conduct this analysis on NBA gameplay statistics, we are using [regular season data (original data)]("../data/nba_raw.csv") compiled over a time range from 2010-2024 (Korolyk, 2024). This dataset is compiled by Vasilii Korolyk and is publicly available at https://github.com/NocturneBear/NBA-Data-2010-2024 for academic use under its [MIT License](https://github.com/NocturneBear/NBA-Data-2010-2024?tab=MIT-1-ov-file). The original data contains over 33,000 observations and documents 57 variables over each entry. 
+In order to conduct this analysis on NBA gameplay statistics, we are using [regular season data (original data)]("./data/nba_raw.csv") compiled over a time range from 2010-2024 (Korolyk, 2024). This dataset is compiled by Vasilii Korolyk and is publicly available at https://github.com/NocturneBear/NBA-Data-2010-2024 for academic use under its [MIT License](https://github.com/NocturneBear/NBA-Data-2010-2024?tab=MIT-1-ov-file). The original data contains over 33,000 observations and documents 57 variables over each entry. 
 
-Within the raw data given, one of the variables was not a statistic and was in fact a helpful utility called AVAILABLE_FLAGS, which indicated whether the data was healthy enough for use. As a result, when cleaning the data we initially dropped all entries that didn't have a value of 1, which indicated they were healthy. After dropping those entries, we then removed all variables that have no bearing on the intended research or methodologies along with fully-empty rows. After cleaning, we're left with around 28K observations and 27 variables. Here are the variable description (Korolyk, 2024):
+Within the raw data given, one of the variables was not a statistic and was in fact a helpful utility called AVAILABLE_FLAGS, which indicated whether the data was healthy enough for use. As a result, when cleaning the data we initially dropped all entries that didn't have a value of 1, which indicated they were healthy. After dropping those entries, we then removed all variables that have no bearing on the intended research or methodologies along with fully-empty rows. After cleaning, we're left with around 28K observations and 27 variables. The variables for the fully cleaned data are as follows
 
 ### Dimensions
-- SEASON_YEAR: The year of the NBA season.
-- TEAM_ID: Unique identifier for the team.
-- TEAM_ABBREVIATION: Abbreviated name of the team.
-- TEAM_NAME: Full name of the team.
-- GAME_ID: Unique identifier for the game.
-- GAME_DATE: Date of the game.
-- MATCHUP: Matchup details indicating the teams involved.
-- WL: Outcome of the game (Win or Loss).
+- Season
+- Team ID
+- Team Abbreviation
+- Team Name
+- Game ID
+- Game Date
+- Matchup 
+- Win/Loss Status
 
 ### Metrics
-- FGM: Field goals made.
-- FGA: Field goals attempted.
-- FG_PCT: Field goal percentage.
-- FG3M: Three-point field goals made.
-- FG3A: Three-point field goals attempted.
-- FG3_PCT: Three-point field goal percentage.
-- FTM: Free throws made.
-- FTA: Free throws attempted.
-- FT_PCT: Free throw percentage.
-- OREB: Offensive rebounds.
-- DREB: Defensive rebounds.
-- REB: Total rebounds.
-- AST: Assists.
-- TOV: Turnovers.
-- STL: Steals.
-- BLK: Blocks.
-- BLKA: Opponent's blocks.
-- PF: Personal fouls.
-- PFD: Personal fouls drawn.
+- Field Goals Made
+- Field Goals Attempted
+- Field Goal Accuracy
+- Three Pointers Made
+- Three Pointers Attempted
+- Three Pointer Accuracy
+- Free Throws Made
+- Free Throws Attempted
+- Free Throw Accuracy
+- Offensive Rebounds
+- Defensive Rebounds
+- Total Rebounds
+- Assists
+- Turnovers
+- Steals
+- Blocks
+- Blocks Against
+- Personal Fouls
+- Personal Fouls Drawn
+
+Before we can use this data though, note something of key importance — three point shots are counted as field goals, since they are a type of field goal along with two-point shots. Mathematically,
+
+$$ 
+\text{FG} = \text{3P} + \text{2P}
+$$
+
+From here we can derive formulas to develop two-point metrics as follows
+
+$$ 
+\text{2PA} = \text{FGA} - \text{3PA}, \text{ 2PM} = \text{FGM} - \text{3PM}, \text{ 2P\%} = \frac{\text{FGM} - \text{3PM}}{\text{FGA} - \text{3PA}}
+$$
+
+After computing these derived metrics, we are finally left with a dataset of 28K observations and 30 variables named like so: 
+
+### Dimensions
+- Season
+- Team ID
+- Team Abbreviation
+- Team Name
+- Game ID
+- Game Date
+- Matchup 
+- Win/Loss Status
+
+### Metrics
+- Field Goals Made
+- Field Goals Attempted
+- Field Goal Accuracy
+- Three Pointers Made
+- Three Pointers Attempted
+- Three Pointer Accuracy
+- Free Throws Made
+- Free Throws Attempted
+- Free Throw Accuracy
+- Offensive Rebounds
+- Defensive Rebounds
+- Total Rebounds
+- Assists
+- Turnovers
+- Steals
+- Blocks
+- Blocks Against
+- Personal Fouls
+- Personal Fouls Drawn
+- Two Pointers Made
+- Two Pointers Attempted
+- Two Pointer Accuracy
 
 ## EDA & Data Visualization
-
-Offensive Efficiency
-```{r}
-# # eFG% vs Offensive Rating
-# ggplot(df, aes(x = `eFG%`, y = OffRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "eFG% vs Offensive Rating",
-#        x = "Effective Field Goal Percentage (eFG%)",
-#        y = "Offensive Rating (OffRtg)")
-# 
-# # FG% vs Offensive Rating
-# ggplot(df, aes(x = `FG%`, y = OffRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "FG% vs Offensive Rating",
-#        x = "Field Goal Percentage (FG%)",
-#        y = "Offensive Rating (OffRtg)")
-# 
-# # Turnover% vs Offensive Rating
-# ggplot(df, aes(x = `TOV%`, y = OffRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "Turnover% vs Offensive Rating",
-#        x = "Turnover Percentage (TOV%)",
-#        y = "Offensive Rating (OffRtg)")
-```
-Observation: Teams with better shooting efficiency (higher eFG% and FG%) generally have higher offensive efficiency. Teams that commit fewer turnovers also tend to score more effectively.
-
-Defensive Efficiency
-```{r}
-# # Defensive Rebound% vs Defensive Rating
-# ggplot(df, aes(x = `DREB%`, y = DefRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "Defensive Rebound% vs Defensive Rating",
-#        x = "Defensive Rebound Percentage (DREB%)",
-#        y = "Defensive Rating (DefRtg, lower is better)")
-# 
-# # Steals vs Defensive Rating
-# ggplot(df, aes(x = STL, y = DefRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "Steals vs Defensive Rating",
-#        x = "Steals per Game",
-#        y = "Defensive Rating (DefRtg, lower is better)")
-# 
-# # Personal Fouls vs Defensive Rating
-# ggplot(df, aes(x = PF, y = DefRtg)) +
-#   geom_point() +
-#   geom_smooth(method = "lm", se = FALSE) +
-#   labs(title = "Personal Fouls vs Defensive Rating",
-#        x = "Personal Fouls per Game",
-#        y = "Defensive Rating (DefRtg, lower is better)")
-```
-
-Observation: Teams that rebound well on defense and generate steals generally allow fewer points. Personal fouls do not show a clear direct relationship with defensive efficiency.
 
 ## Analysis
 

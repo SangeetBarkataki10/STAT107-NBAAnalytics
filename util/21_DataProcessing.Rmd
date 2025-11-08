@@ -7,24 +7,24 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+source("../util/00_requirements.R")
+load("../data/11_NBA-Analysis.RData")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r cars}
-summary(cars)
+# Computing Two Point Attempts/Makes/Accuracy To Decompose Field Goal metrics
+nba_processed <- nba_clean %>%
+  mutate(
+    `Two Pointer Attempts` = `Field Goals Attempted` - `Three Pointers Attempted`,
+    `Two Pointers Made`     = `Field Goals Made`      - `Three Pointers Made`,
+    `Two Pointer Accuracy`        = if_else(`Two Pointer Attempts` == 0, NA_real_,
+                                   `Two Pointers Made` / `Two Pointer Attempts`)
+  )
+
+head(nba_processed, 10)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo=FALSE}
+save.image("../data/21_NBA-Analysis.RData")
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
