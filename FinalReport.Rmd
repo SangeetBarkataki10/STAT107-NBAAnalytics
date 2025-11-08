@@ -72,7 +72,7 @@ $$
 \text{2PA} = \text{FGA} - \text{3PA}, \text{ 2PM} = \text{FGM} - \text{3PM}, \text{ 2P\%} = \frac{\text{FGM} - \text{3PM}}{\text{FGA} - \text{3PA}}
 $$
 
-After computing these derived metrics, we are finally left with a dataset of 28K observations and 30 variables named like so: 
+After computing these derived metrics, general field goals is essentially rendered a composite of two available metrics, and hence obsolete. As a result, we drop the original field goal metricsm finally leaving us with a dataset of 28K observations and 30 variables named like so: 
 
 ### Dimensions
 - Season
@@ -85,9 +85,6 @@ After computing these derived metrics, we are finally left with a dataset of 28K
 - Win/Loss Status
 
 ### Metrics
-- Field Goals Made
-- Field Goals Attempted
-- Field Goal Accuracy
 - Three Pointers Made
 - Three Pointers Attempted
 - Three Pointer Accuracy
@@ -107,6 +104,24 @@ After computing these derived metrics, we are finally left with a dataset of 28K
 - Two Pointers Made
 - Two Pointers Attempted
 - Two Pointer Accuracy
+
+As a final preliminary to EDA and data visualization, we will also categorize the metrics between offense and defense as follows along with rationale:
+
+### Offensive Metrics
+- Three Pointers: Point-scoring event
+- Free Throws: Point-scoring event
+- Offensive Rebounds: Initiates offensive play via repossession on offensive drive
+- Assists: Directly enables and precedes a point-scoring event (two/three pointers)
+- Turnovers: Offensive loss of possession
+- Two Pointers: Point-scoring event
+- Personal Fouls Drawn: Enables a point-scoring event (free throw)
+- Blocks Against: Disrupts a point-gaining opportunity for team
+
+### Defensive Metrics
+- Defensive Rebounds: Initiates possession after defensive drive
+- Steals: Interrupts opponent's offensive drive and initiates possession from defensive play
+- Blocks: Disrupts a point-gaining opportunity for opponent
+- Personal Fouls: Penalty for illegal defensive maneuver
 
 ## EDA & Data Visualization
 

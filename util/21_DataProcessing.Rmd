@@ -14,7 +14,7 @@ load("../data/11_NBA-Analysis.RData")
 
 ```{r cars}
 # Computing Two Point Attempts/Makes/Accuracy To Decompose Field Goal metrics
-nba_processed <- nba_clean %>%
+nba_derived <- nba_clean %>%
   mutate(
     `Two Pointer Attempts` = `Field Goals Attempted` - `Three Pointers Attempted`,
     `Two Pointers Made`     = `Field Goals Made`      - `Three Pointers Made`,
@@ -22,6 +22,9 @@ nba_processed <- nba_clean %>%
                                    `Two Pointers Made` / `Two Pointer Attempts`)
   )
 
+nba_processed <- nba_derived[ , !(names(nba_derived) %in% c("Field Goals Attempted", "Field Goals Made", "Field Goal Accuracy")) ]
+
+write.csv(nba_processed, "../data/nba_processed.csv", row.names = FALSE)
 head(nba_processed, 10)
 ```
 
