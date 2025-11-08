@@ -12,4 +12,13 @@ To do so, we will be pulling from these two public data sets
 > 
 > [Offical NBA Team & Player Statistics](https://www.nba.com/stats)
 
-All findings and analysis are available in the repository's source code and on the knitted PDF attached below.
+## Repository File Description:
+1. [FinalReport.Rmd](FinalReport.Rmd) - Rmd file containing report + full code
+2. [FinalReport.pdf](FinalReport.pdf) - Knitted Report PDF containing report + displayed code
+3. [Team22_NBA-Analysis.RData](Team22_NBA-Analysis.RData) - RData jar containing all environment variables
+4. [STAT107-NBAAnalytics.Rproj](STAT107-NBAAnalytics.Rproj) - Contains all project data
+5. [img/util/NocturneBear-NBA_Analytics-blue.png](img/util/NocturneBear-NBA_Analytics-blue.png) - Citation badge for source data
+6. [util/11_DataCleaning.Rmd](util/11_DataCleaning.Rmd) - Data cleaning and saving
+7. [util/00_requirements.R](util/00_requirements.R) - Required libraries list
+8. [util/01_functions.R](util/01_functions.R) - Custom functions
+9. [img/plots](img/plots) - All plots

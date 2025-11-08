@@ -1,0 +1,85 @@
+---
+title: "Data Cleaning"
+author: "Team 22"
+date: "2025-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("00_requirements.R")
+```
+
+
+
+```{r}
+# Reading raw data from NocturneBear repo and saving to files
+nba_raw <- read_csv("https://raw.githubusercontent.com/NocturneBear/NBA-Data-2010-2024/refs/heads/main/regular_season_totals_2010_2024.csv")
+write.csv(nba_raw, "../data/nba_raw.csv", row.names = FALSE)
+head(nba_raw)
+```
+
+
+
+
+```{r}
+# Variables needed for analysis
+vars <- c("SEASON_YEAR",
+          "TEAM_ID","TEAM_ABBREVIATION","TEAM_NAME",
+          "GAME_ID", "GAME_DATE", "MATCHUP", "WL",
+          "FGM","FGA","FG_PCT",
+          "FG3M","FG3A","FG3_PCT",
+          "FTM","FTA","FT_PCT",
+          "OREB","DREB","REB",
+          "AST", "TOV", "STL",
+          "BLK","BLKA",
+          "PF","PFD")
+
+# Removing unhealthy entries
+nba_hasflags <- nba_raw[nba_raw$AVAILABLE_FLAG == 1,]
+
+# Filtering for relevant variables only 
+nba_relev <- nba_hasflags[, intersect(vars, names(nba_hasflags))]
+
+# Dropping fully empty entries
+nba_fullentries <- tidyr::drop_na(nba_relev)
+
+# Making col names tidy
+nba_clean <- dplyr::rename(nba_fullentries,
+                           "Season" = SEASON_YEAR,
+                           "Team ID" = TEAM_ID,
+                           "Team Abbreviation" = TEAM_ABBREVIATION,
+                           "Team Name" = TEAM_NAME,
+                           "Game ID" = GAME_ID, 
+                           "Game Date" = GAME_DATE, 
+                           "Matchup" = MATCHUP, 
+                           "Win/Loss Status" = WL,
+                           "Field Goals Made" = FGM,
+                           "Field Goals Attempted" = FGA,
+                           "Field Goal Accuracy" = FG_PCT,
+                           "Three Pointers Made" = FG3M,
+                           "Three Pointers Attempted" = FG3A,
+                           "Three Pointer Accuracy" = FG3_PCT,
+                           "Free Throws Made" = FTM,
+                           "Free Throws Attempted" = FTA,
+                           "Free Throw Accuracy" = FT_PCT,
+                           "Offensive Rebounds" = OREB,
+                           "Defensive Rebounds" = DREB,
+                           "Total Rebounds" = REB,
+                           "Assists" = AST, 
+                           "Turnover" = TOV, 
+                           "Steals" = STL,
+                           "Blocks" = BLK,
+                           "Blocks Against" = BLKA,
+                           "Personal Fouls" = PF,
+                           "Personal Fouls Drawn" = PFD
+                           )
+
+write.csv(nba_clean, "../data/nba_clean.csv", row.names = FALSE)
+head(nba_clean, 10)
+```
+
+``` {r}
+save.image("../data/11_NBA-Analysis.RData")
+```
+
