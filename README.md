@@ -20,3 +20,5 @@ To do so, we will be pulling from these two public data sets
 5. [img/util/NocturneBear-NBA_Analytics-blue.png](img/util/NocturneBear-NBA_Analytics-blue.png) - Citation badge for source data
 6. [util/11_DataCleaning.Rmd](util/11_DataCleaning.Rmd) - Data cleaning and saving
 7. [util/00_requirements.R](util/00_requirements.R) - Required libraries list
+8. [util/01_functions.R](util/01_functions.R) - Custom functions
+9. [img/plots](img/plots) - All plots
