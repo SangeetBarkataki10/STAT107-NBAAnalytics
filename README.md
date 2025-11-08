@@ -18,7 +18,13 @@ To do so, we will be pulling from these two public data sets
 3. [Team22_NBA-Analysis.RData](Team22_NBA-Analysis.RData) - RData jar containing all environment variables
 4. [STAT107-NBAAnalytics.Rproj](STAT107-NBAAnalytics.Rproj) - Contains all project data
 5. [img/util/NocturneBear-NBA_Analytics-blue.png](img/util/NocturneBear-NBA_Analytics-blue.png) - Citation badge for source data
-6. [util/11_DataCleaning.Rmd](util/11_DataCleaning.Rmd) - Data cleaning and saving
-7. [util/00_requirements.R](util/00_requirements.R) - Required libraries list
-8. [util/01_functions.R](util/01_functions.R) - Custom functions
-9. [img/plots](img/plots) - All plots
+6. [data/nba_processed.csv](data/nba_processed.csv) - Processed Data
+7. [data/nba_clean.csv](data/nba_clean.csv) - Cleaned Data
+8. [data/nba_raw.csv](data/nba_raw.csv) - Raw Data
+9. [util/00_requirements.R](util/00_requirements.R) - Required libraries list
+10. [util/01_functions.R](util/01_functions.R) - Custom functions
+11. [img/plots](img/plots) - All plots
+12. [util/11_DataCleaning.Rmd](util/11_DataCleaning.Rmd) - Data Cleaning & Saving File
+13. [util/21_DataProcessing.Rmd](util/21_DataProcessing.Rmd) - Data Processing File
+14. [util/31_DataVisualization.Rmd](util/31_DataVisualization.Rmd) - Data Visualization File
+
