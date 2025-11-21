@@ -1,0 +1,25 @@
+---
+title: "ftest_offense_vs_composite"
+output: html_document
+---
+
+```{r}
+library(broom)
+setwd("D:/Workspace/STAT107/STAT107-Team22-NBAAnalytics")
+
+df <- read.csv("data/nba_clean.csv")
+names(df)
+
+model_composite <- lm(target_variable ~ composite, data=df)
+
+model_offensive <- lm(target_variable ~ composite + offense_model_score, data=df)
+
+model_defensive <- lm(target_variable ~ composite + defensive_model_score, data=df)
+
+ftest_offensive <- anova(model_composite, model_offensive)
+tidy(ftest_offensive)
+
+ftest_defensive <- anova(model_composite, model_defensive)
+tidy(ftest_defensive)
+```
+
